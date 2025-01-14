@@ -1,0 +1,29 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #357200;
+  }
+  
+  .navbar__logo img {
+    height: 50px; /* Adjust the size of the logo */
+  }
+  
+  .navbar__links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar__links li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .navbar__links li a:hover {
+    color: #fffb00;
+  }
+  
