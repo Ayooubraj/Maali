@@ -1,0 +1,21 @@
+/* Product Page Styles */
+.product-page {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.product-page__title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.product-page__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}

@@ -1,0 +1,93 @@
+/* Container for the product card */
+.product-card {
+    width: 250px; /* Fixed width for the product card */
+    height: 380px; /* Fixed height for the product card */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Prevents any content from overflowing the card */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Image styles */
+  .product-card__image {
+    width: 100%; /* Full width of the card */
+    height: 200px; /* Fixed height for the image */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    background-color: #f4f4f4; /* Background color for images that fail to load */
+  }
+  
+  /* Details section under the image */
+  .product-card__details {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Take up the remaining space */
+  }
+  
+  /* Name of the product */
+  .product-card__name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Prevents wrapping */
+  }
+  
+  /* Price section */
+  .product-card__price {
+    font-size: 1rem;
+    color: #58b084;
+    margin-bottom: 10px;
+  }
+  
+  /* Rating section */
+  .product-card__rating {
+    font-size: 0.9rem;
+    color: #ff9500;
+    margin-bottom: 20px;
+  }
+  
+  /* Action buttons (Buy Now and Add to Cart) */
+  .product-card__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Pushes the buttons to the bottom */
+  }
+  
+  /* Common styles for the action buttons */
+  .product-card__actions button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 48%; /* Ensures buttons don't overflow */
+  }
+  
+  /* Buy Now button specific styles */
+  .product-card__buy-btn {
+    background-color: #58b084;
+    color: white;
+  }
+  
+  /* Add to Cart button specific styles */
+  .product-card__add-to-cart-btn {
+    background-color: #ff9500;
+    color: white;
+  }
+  
+  /* Hover effects for buttons */
+  .product-card__buy-btn:hover {
+    background-color: #45a074;
+  }
+  
+  .product-card__add-to-cart-btn:hover {
+    background-color: #e87a00;
+  }
+  

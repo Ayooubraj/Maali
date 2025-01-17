@@ -1,18 +1,27 @@
 // src/App.js
 import React from 'react';
-import './App.css'; // You can add some global styles here if needed
-import Navigation from './components/Navbar/Navigation'; // Importing the Navbar
-import HomePage from './pages/home/HomePage'; // Importing the HomePage
-
+import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navigation from './components/Navbar/Navigation';
+import HomePage from './pages/home/HomePage';
+import ProductPage from './pages/Product/ProductPage';
+import HomeServicePage from './pages/HomeService/HomeServicePage';
+import FilterPanel from './components/Filter/FilterPanel';
 const App = () => {
   return (
-    <div className="App">
-      {/* Render Navbar */}
-      <Navigation />
+    <Router>
+      <div className="App">
+        {/* Render Navbar */}
+        <Navigation />
 
-      {/* Render HomePage */}
-      <HomePage />
-    </div>
+        {/* Routes for different pages */}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/product" element={<ProductPage />} />
+          <Route path="/HomeService" element={<HomeServicePage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

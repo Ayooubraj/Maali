@@ -2,12 +2,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #357200;
+    padding: 10px;
+    background-color: #7db035;
+    height: 75px;
+
   }
   
   .navbar__logo img {
-    height: 50px; /* Adjust the size of the logo */
+    /* height: 50px; */
+    width: 150px;
   }
   
   .navbar__links {
