@@ -10,24 +10,22 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="hero">
         <img
-          src={require('../../assets/images/hero_img.png')}
+          src={require('../../assets/images/hero_img3.png')}
           alt="Hero"
           className="hero__image"
+        />
+        <img
+          src={require('../../assets/images/hero_img2.png')}
+          alt="Hero Overlay"
+          className="hero__overlay-image"
         />
         <div className="hero__overlay">
           <div className="hero__content">
             <h1 className="hero__title">Welcome to Maali</h1>
             <p className="hero__description">
-              Your one-stop shop for beautiful plants and garden accessories
+              <h2>Book a gardener for your garden from home!</h2>
             </p>
-            <button className="hero__button">Shop Now</button>
-          </div>
-          <div className="hero__search-bar">
-            <input
-              type="text"
-              className="search-bar__input"
-              placeholder="Search for plants or tools"
-            />
+            <button className="hero__button">Book Now</button>
           </div>
         </div>
       </section>
@@ -35,48 +33,98 @@ const HomePage = () => {
       {/* Main Content */}
       <div className="main-content">
         {/* Filter Panel */}
-        <FilterPanel />
+        <div className="filter-container">
+          <FilterPanel />
+        </div>
 
-        {/* Flip Cards Section */}
-        <div className="flip-cards-container">
-          {/* First Card */}
-          <div className="flip-card">
-            <div className="flip-card-inner">
-              <div className="flip-card-front">
-                <img
-                  src={gardener1}
-                  alt="Gardener 1"
-                />
-                <div className="flip-card-overlay">Home Services</div>
+        {/* Right Side Content */}
+        <div className="featured-section">
+          {/* Category Section - Now First */}
+          <section className="category-section">
+            <h2 className="category-section__title">Shop by Category</h2>
+            <div className="category-container">
+              <button className="scroll-button left" onClick={() => document.querySelector('.category-scroll').scrollBy(-200, 0)}>
+                &lt;
+              </button>
+              <div className="category-scroll">
+                <div className="category-item">
+                  <div className="category-image">
+                    <img src={require('../../assets/images/plant1.jpg')} alt="Indoor Plants" />
+                  </div>
+                  <p className="category-label">Indoor Plants</p>
+                </div>
+                <div className="category-item">
+                  <div className="category-image">
+                    <img src={require('../../assets/images/plant1.jpg')} alt="Outdoor Plants" />
+                  </div>
+                  <p className="category-label">Outdoor Plants</p>
+                </div>
+                <div className="category-item">
+                  <div className="category-image">
+                    <img src={require('../../assets/images/plant1.jpg')} alt="Gardening Tools" />
+                  </div>
+                  <p className="category-label">Gardening Tools</p>
+                </div>
+                <div className="category-item">
+                  <div className="category-image">
+                    <img src={require('../../assets/images/plant1.jpg')} alt="Plant Care" />
+                  </div>
+                  <p className="category-label">Plant Care</p>
+                </div>
+                <div className="category-item">
+                  <div className="category-image">
+                    <img src={require('../../assets/images/plant1.jpg')} alt="Seeds" />
+                  </div>
+                  <p className="category-label">Seeds</p>
+                </div>
               </div>
-              <div className="flip-card-back">
-                <h1>Home Service</h1>
-                <p>Learn the best tips for your garden</p>
-                <button onClick={() => alert('Home Service Button Clicked')}>
-                  Learn More
-                </button>
+              <button className="scroll-button right" onClick={() => document.querySelector('.category-scroll').scrollBy(200, 0)}>
+                &gt;
+              </button>
+            </div>
+          </section>
+
+          {/* Featured Products Section - Now Second */}
+          <h2 className="featured-section__title">Featured Products</h2>
+          <div className="featured-container">
+            <button className="scroll-button left" onClick={() => document.querySelector('.featured-scroll').scrollBy(-200, 0)}>
+              &lt;
+            </button>
+            <div className="featured-scroll">
+              <div className="featured-item">
+                <div className="featured-image">
+                  <img src={require('../../assets/images/plant1.jpg')} alt="Indoor Plants" />
+                </div>
+                <p className="featured-label">Indoor Plants</p>
+              </div>
+              <div className="featured-item">
+                <div className="featured-image">
+                  <img src={require('../../assets/images/plant1.jpg')} alt="Outdoor Plants" />
+                </div>
+                <p className="featured-label">Outdoor Plants</p>
+              </div>
+              <div className="featured-item">
+                <div className="featured-image">
+                  <img src={require('../../assets/images/plant1.jpg')} alt="Gardening Tools" />
+                </div>
+                <p className="featured-label">Gardening Tools</p>
+              </div>
+              <div className="featured-item">
+                <div className="featured-image">
+                  <img src={require('../../assets/images/plant1.jpg')} alt="Plant Care" />
+                </div>
+                <p className="featured-label">Plant Care</p>
+              </div>
+              <div className="featured-item">
+                <div className="featured-image">
+                  <img src={require('../../assets/images/plant1.jpg')} alt="Seeds" />
+                </div>
+                <p className="featured-label">Seeds</p>
               </div>
             </div>
-          </div>
-
-          {/* Second Card */}
-          <div className="flip-card">
-            <div className="flip-card-inner">
-              <div className="flip-card-front">
-                <img
-                  src={gardener1}
-                  alt="Gardener 1"
-                />
-                <div className="flip-card-overlay">Plant Care</div>
-              </div>
-              <div className="flip-card-back">
-                <h1>Plant Care</h1>
-                <p>Essential plant care techniques</p>
-                <button onClick={() => alert('Plant Care Button Clicked')}>
-                  Learn More
-                </button>
-              </div>
-            </div>
+            <button className="scroll-button right" onClick={() => document.querySelector('.featured-scroll').scrollBy(200, 0)}>
+              &gt;
+            </button>
           </div>
         </div>
       </div>
