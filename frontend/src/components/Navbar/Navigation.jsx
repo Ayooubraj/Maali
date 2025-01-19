@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import './Navbar.css'; // Importing the CSS for the Navbar
 import { FaUserCircle } from 'react-icons/fa';
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -13,17 +15,17 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <div className="navbar__logo">
+      <div className="navbar__logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
         <img src={require('../../assets/images/logo1.png')} alt="Logo" />
       </div>
 
      
       
       <ul className="navbar__links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#/product">Products</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/product">Products</Link></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
 
       <div className="navbar__search">
@@ -38,10 +40,10 @@ const Navbar = () => {
         </form>
       </div>
 
-      <button className="navbar__login">
+      <Link to="/login" className="navbar__login">
         <FaUserCircle className="avatar-icon" />
         Login
-      </button>
+      </Link>
     </nav>
   );
 };

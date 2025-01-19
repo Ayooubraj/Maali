@@ -8,30 +8,29 @@
 }
 
 /* Hero Section */
-.hero {
+.homepage .hero {
   position: relative;
   width: 100%;
-  height: 600px;
+  height: 600px;  /* Increased from 500px to 600px */
 }
 
-.hero__image {
+.homepage .hero__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.hero__overlay-image {
+.homepage .hero__overlay-image {
   position: absolute;
-  top: 50px;
+  top: 60px;
   right: 0;
   height: 80%;
-  max-height: 100vh;
   max-width: 50%;
   z-index: 2;
   object-fit: contain;
 }
 
-.hero__overlay {
+.homepage .hero__overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -41,30 +40,29 @@
   z-index: 1;
 }
 
-.hero__content {
-  padding: 80px;
+.homepage .hero__content {
+  padding: 80px;  /* Increased from 60px to match new height */
   position: relative;
   z-index: 1;
   color: #ffffff;
   max-width: 40%;
 }
 
-.hero__title {
-  font-size: 4.5rem;
+.homepage .hero__title {
+  font-size: 3.5rem;  /* Same as HomeServicePage */
   font-weight: 700;
-  color: #ffffff;
   margin-bottom: 1rem;
   text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
 }
 
-.hero__description {
+.homepage .hero__description {
   font-size: 1.25rem;
   margin-bottom: 30px;
   line-height: 1.5;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
 }
 
-.hero__button {
+.homepage .hero__button {
   padding: 10px 20px;
   font-size: 1.1rem;
   background-color: #58b084;
@@ -74,7 +72,7 @@
   cursor: pointer;
 }
 
-.hero__button:hover {
+.homepage .hero__button:hover {
   background-color: #45a074;
 }
 

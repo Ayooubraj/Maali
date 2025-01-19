@@ -1,21 +1,24 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import FilterPanel from '../../components/Filter/FilterPanel';
 import './HomePage.css';
 
 import gardener1 from '../../assets/images/gardener1.jpg';
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="homepage">
       {/* Hero Section */}
       <section className="hero">
         <img
-          src={require('../../assets/images/hero_img3.png')}
+          src={require('../../assets/images/hero_bgimg.png')}
           alt="Hero"
           className="hero__image"
         />
         <img
-          src={require('../../assets/images/hero_img2.png')}
+          src={require('../../assets/images/hero_img1.png')}
           alt="Hero Overlay"
           className="hero__overlay-image"
         />
@@ -25,7 +28,12 @@ const HomePage = () => {
             <p className="hero__description">
               <h2>Book a gardener for your garden from home!</h2>
             </p>
-            <button className="hero__button">Book Now</button>
+            <button 
+              className="hero__button"
+              onClick={() => navigate('/HomeService')}
+            >
+              Book Now
+            </button>
           </div>
         </div>
       </section>

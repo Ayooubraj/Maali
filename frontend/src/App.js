@@ -7,6 +7,10 @@ import HomePage from './pages/home/HomePage';
 import ProductPage from './pages/Product/ProductPage';
 import HomeServicePage from './pages/HomeService/HomeServicePage';
 import FilterPanel from './components/Filter/FilterPanel';
+import Login from './pages/Auth/Login/Login';
+import Register from './pages/Auth/Register/Register';
+import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword';
+
 const App = () => {
   return (
     <Router>
@@ -18,7 +22,11 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/product" element={<ProductPage />} />
-          <Route path="/HomeService" element={<HomeServicePage />} />
+          <Route path="/homeservice" element={<HomeServicePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/* <Route path="/register" element={<Register />} /> */}
         </Routes>
       </div>
     </Router>
