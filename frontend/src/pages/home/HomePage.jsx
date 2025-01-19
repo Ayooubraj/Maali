@@ -39,34 +39,42 @@ const HomePage = () => {
 
         {/* Flip Cards Section */}
         <div className="flip-cards-container">
+          {/* First Card */}
           <div className="flip-card">
             <div className="flip-card-inner">
               <div className="flip-card-front">
-              <img
-                src={gardener1}
-                alt="Gardener 1"
-                style={{ width: '400px', height: '300px' }}
-              />
+                <img
+                  src={gardener1}
+                  alt="Gardener 1"
+                />
+                <div className="flip-card-overlay">Home Services</div>
               </div>
               <div className="flip-card-back">
                 <h1>Home Service</h1>
                 <p>Learn the best tips for your garden</p>
+                <button onClick={() => alert('Home Service Button Clicked')}>
+                  Learn More
+                </button>
               </div>
             </div>
           </div>
 
+          {/* Second Card */}
           <div className="flip-card">
             <div className="flip-card-inner">
               <div className="flip-card-front">
-              <img
-                src={gardener1}
-                alt="Gardener 1"
-                style={{ width: '300px', height: '300px' }}
-              />
+                <img
+                  src={gardener1}
+                  alt="Gardener 1"
+                />
+                <div className="flip-card-overlay">Plant Care</div>
               </div>
               <div className="flip-card-back">
                 <h1>Plant Care</h1>
                 <p>Essential plant care techniques</p>
+                <button onClick={() => alert('Plant Care Button Clicked')}>
+                  Learn More
+                </button>
               </div>
             </div>
           </div>
