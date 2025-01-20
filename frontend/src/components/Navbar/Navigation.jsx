@@ -111,7 +111,10 @@ const Navbar = () => {
       {user ? (
         <div className="navbar__profile">
           <div className="profile-icon" onClick={toggleProfile}>
-            <FaUserCircle className="avatar-icon" />
+            <div className="profile-icon-container">
+              <FaUserCircle className="avatar-icon" />
+              <span className="profile-label">Profile</span>
+            </div>
             <span className="username">{user.fullName}</span>
           </div>
           {showProfile && (
@@ -139,8 +142,10 @@ const Navbar = () => {
         </div>
       ) : (
         <Link to="/login" className="navbar__login">
-          <FaUserCircle className="avatar-icon" />
-          Login
+          <div className="profile-icon-container">
+            <FaUserCircle className="avatar-icon" />
+            <span className="profile-label">Profile</span>
+          </div>
         </Link>
       )}
 
