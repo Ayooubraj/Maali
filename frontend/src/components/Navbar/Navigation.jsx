@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Navbar.css';
-import { FaUserCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaUserCircle, FaEye, FaEyeSlash, FaShoppingCart } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -86,7 +86,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar__logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        <img src={require('../../assets/images/logo2.png')} alt="Logo" />
+        <img src={require('../../assets/images/logo1.png')} alt="Logo" />
       </div>
 
       <ul className="navbar__links">
@@ -107,6 +107,13 @@ const Navbar = () => {
           <button type="submit">Search</button>
         </form>
       </div>
+
+      <Link to="/cart" className="navbar__cart">
+        <div className="cart-icon-container">
+          <FaShoppingCart className="cart-icon" />
+          <span className="cart-label">Cart</span>
+        </div>
+      </Link>
 
       {user ? (
         <div className="navbar__profile">

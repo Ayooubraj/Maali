@@ -11,7 +11,7 @@ import Login from './pages/Auth/Login/Login';
 import Register from './pages/Auth/Register/Register';
 import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword';
 import { AuthProvider } from './context/AuthContext';
-
+import Cart from './pages/Cart/Cart';
 const theme = createTheme();
 
 const App = () => {
@@ -31,6 +31,7 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/cart" element={<Cart />} />
             </Routes>
           </div>
         </Router>
