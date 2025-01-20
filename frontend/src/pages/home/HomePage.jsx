@@ -25,9 +25,7 @@ const HomePage = () => {
         <div className="hero__overlay">
           <div className="hero__content">
             <h1 className="hero__title">Welcome to Maali</h1>
-            <p className="hero__description">
-              <h2>Book a gardener for your garden from home!</h2>
-            </p>
+            <h2 className="hero__description">Book a gardener for your garden from home!</h2>
             <button 
               className="hero__button"
               onClick={() => navigate('/HomeService')}

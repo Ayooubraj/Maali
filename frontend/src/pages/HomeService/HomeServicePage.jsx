@@ -35,7 +35,7 @@ const HomeServicePage = () => {
           <div className="package-card">
             <h3 className="package-card__title">Basic Package</h3>
             <div className="package-card__content">
-              <p className="package-card__price">$99/month</p>
+              <p className="package-card__price">Rs.1999</p>
               <ul className="package-card__features">
                 <li>Weekly Garden Maintenance</li>
                 <li>Basic Plant Care</li>
@@ -49,7 +49,7 @@ const HomeServicePage = () => {
           <div className="package-card">
             <h3 className="package-card__title">Standard Package</h3>
             <div className="package-card__content">
-              <p className="package-card__price">$199/month</p>
+              <p className="package-card__price">Rs.2999</p>
               <ul className="package-card__features">
                 <li>All Basic Package Features</li>
                 <li>Fertilization</li>
@@ -63,7 +63,7 @@ const HomeServicePage = () => {
           <div className="package-card">
             <h3 className="package-card__title">Premium Package</h3>
             <div className="package-card__content">
-              <p className="package-card__price">$299/month</p>
+              <p className="package-card__price">Rs.3999</p>
               <ul className="package-card__features">
                 <li>All Standard Package Features</li>
                 <li>Landscape Design</li>

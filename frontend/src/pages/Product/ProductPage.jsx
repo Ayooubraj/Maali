@@ -9,22 +9,20 @@ const ProductPage = () => {
       name: 'Indoor Plant - Fern',
       price: '25.00',
       rating: '4.5',
-      image: 'https://via.placeholder.com/250x200?text=Plant+1',
+      image: require('../../assets/images/plant1.jpg'),
     },
     {
       id: 2,
       name: 'Outdoor Plant - Bamboo',
       price: '45.00',
       rating: '4.7',
-      image: 'https://via.placeholder.com/250x200?text=Plant+2',
-    },
+      image: require('../../assets/images/plant1.jpg'),    },
     {
       id: 3,
       name: 'Cactus Plant',
       price: '15.00',
       rating: '4.3',
-      image: 'https://via.placeholder.com/250x200?text=Plant+3',
-    },
+      image: require('../../assets/images/plant1.jpg'),    },
     // Add more products as needed
   ];
 

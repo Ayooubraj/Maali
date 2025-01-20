@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './ForgotPassword.css';
+import { authAPI } from '../../../axios';  // Updated import path for direct src location
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle password reset logic here
-    console.log('Password reset requested for:', email);
-    setIsSubmitted(true);
+    try {
+      // Handle password reset logic here
+      console.log('Password reset requested for:', email);
+      setIsSubmitted(true);
+    } catch (err) {
+      setError(err.response?.data?.message || 'An error occurred');
+    }
   };
 
   return (
@@ -36,6 +42,7 @@ const ForgotPassword = () => {
         </div>
         
         <div className="auth-card">
+          {error && <div className="error-message">{error}</div>}
           <div className="auth-logo">
             <img 
               src={require('../../../assets/images/logo2.png')} 

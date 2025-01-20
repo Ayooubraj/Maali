@@ -1,24 +1,91 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { authAPI } from '../../../axios';
+import { useAuth } from '../../../context/AuthContext';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import './Login.css';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success'
+  });
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbar({ ...snackbar, open: false });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
+    console.log('Login attempt with:', formData);
+    
+    try {
+      console.log('Sending login request...');
+      const response = await authAPI.login(formData);
+      console.log('Login response:', response);
+
+      if (response.data.user && response.data.token) {
+        login(response.data.user, response.data.token); // Pass both user and token
+        
+        setSnackbar({
+          open: true,
+          message: 'Login successful! Redirecting...',
+          severity: 'success'
+        });
+        
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      let errorMessage = 'An error occurred';
+      
+      if (err.response) {
+        switch (err.response.status) {
+          case 404:
+            errorMessage = 'Account not found. Please check your email.';
+            break;
+          case 401:
+            errorMessage = 'Incorrect password. Please try again.';
+            break;
+          case 400:
+            errorMessage = err.response.data.message || 'Invalid credentials';
+            break;
+          default:
+            errorMessage = 'Login failed. Please try again.';
+        }
+      }
+      
+      setSnackbar({
+        open: true,
+        message: errorMessage,
+        severity: 'error'
+      });
+    }
   };
 
   return (
     <div className="auth-container">
       <div className="auth-content">
         <div className="auth-left">
-          <h1>Welcome to Maali</h1>
-          <p className="tagline">Your One-Stop Gardening Solution</p>
+          <h1>Welcome Back!</h1>
+          <p className="tagline">Your Garden Awaits</p>
           <div className="feature-list">
             <div className="feature-item">
               <span className="feature-icon">🌱</span>
@@ -43,7 +110,7 @@ const Login = () => {
               loading="lazy"
             />
           </div>
-          <h2>Welcome Back!</h2>
+          <h2>Login</h2>
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <input
@@ -75,6 +142,20 @@ const Login = () => {
           </p>
         </div>
       </div>
+      
+      <Snackbar 
+        open={snackbar.open} 
+        autoHideDuration={6000} 
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert 
+          onClose={handleCloseSnackbar} 
+          severity={snackbar.severity}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
