@@ -1,23 +1,18 @@
 import React from 'react';
 import './ProductCard.css'; // Make sure you link your CSS here
+import { FaShoppingCart } from 'react-icons/fa';
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="featured-card">
-      <div className="featured-card__image">
-        <img src={product.image} alt={product.name} />
-      </div>
-      <div className="featured-card__details">
-        <h3 className="featured-card__title">{product.name}</h3>
-        <p className="featured-card__price">${product.price}</p>
-        <p className="featured-card__rating">Rating: {product.rating}</p>
-      </div>
-      <div className="featured-card__buttons">
-        <button className="featured-card__buy-button">Buy Now</button>
-        <button className="featured-card__cart-button">
-          <i className="fa fa-cart-plus"></i> Add to Cart
-        </button>
-      </div>
+    <div className="product-card">
+      <img src={product.image} alt={product.name} className="product-image" />
+      <h3 className="product-name">{product.name}</h3>
+      <p className="product-category">{product.category}</p>
+      <div className="product-rating">Rating: {product.rating} ★</div>
+      <button className="buy-now-button">Buy Now</button>
+      <button className="add-to-cart-button">
+        <FaShoppingCart /> Add to Cart
+      </button>
     </div>
   );
 };

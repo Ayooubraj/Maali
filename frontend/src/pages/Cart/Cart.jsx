@@ -20,6 +20,8 @@ const Cart = () => {
     }
   ]);
 
+  const [selectedPayment, setSelectedPayment] = useState('cod'); // Default to COD
+
   const updateQuantity = (itemId, change) => {
     setCartItems(prevItems =>
       prevItems.map(item => {
@@ -37,6 +39,20 @@ const Cart = () => {
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
+  const handlePaymentSelect = (method) => {
+    setSelectedPayment(method);
+  };
+
+  const handleCheckout = () => {
+    if (selectedPayment === 'khalti') {
+      // Implement Khalti payment logic here
+      console.log('Processing Khalti payment...');
+    } else {
+      // Implement COD logic here
+      console.log('Processing Cash on Delivery...');
+    }
   };
 
   return (
@@ -58,7 +74,7 @@ const Cart = () => {
                 <img src={item.image} alt={item.name} className="item-image" />
                 <div className="item-details">
                   <h3>{item.name}</h3>
-                  <p className="item-price">${item.price.toFixed(2)}</p>
+                  <p className="item-price">₨ {item.price.toFixed(2)}</p>
                 </div>
                 <div className="quantity-controls">
                   <button onClick={() => updateQuantity(item.id, -1)}>-</button>
@@ -66,7 +82,7 @@ const Cart = () => {
                   <button onClick={() => updateQuantity(item.id, 1)}>+</button>
                 </div>
                 <p className="item-total">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  ₨ {(item.price * item.quantity).toFixed(2)}
                 </p>
               </div>
             ))}
@@ -77,7 +93,7 @@ const Cart = () => {
               <h2>Order Summary</h2>
               <div className="summary-row">
                 <span>Subtotal:</span>
-                <span>${calculateTotal().toFixed(2)}</span>
+                <span>₨ {calculateTotal().toFixed(2)}</span>
               </div>
               <div className="summary-row">
                 <span>Shipping:</span>
@@ -85,10 +101,43 @@ const Cart = () => {
               </div>
               <div className="summary-row total">
                 <span>Total:</span>
-                <span>${calculateTotal().toFixed(2)}</span>
+                <span>₨ {calculateTotal().toFixed(2)}</span>
               </div>
-              <button className="checkout-button">
-                Proceed to Checkout
+
+              {/* Payment Options */}
+              <div className="payment-options">
+                <h3>Payment Method</h3>
+                <div className="payment-methods">
+                  <div 
+                    className={`payment-method ${selectedPayment === 'khalti' ? 'selected' : ''}`}
+                    onClick={() => handlePaymentSelect('khalti')}
+                  >
+                    <img 
+                      src={require('../../assets/images/khalti_logo.png')} 
+                      alt="Khalti" 
+                      className="payment-logo"
+                    />
+                    <span>Khalti</span>
+                  </div>
+                  <div 
+                    className={`payment-method ${selectedPayment === 'cod' ? 'selected' : ''}`}
+                    onClick={() => handlePaymentSelect('cod')}
+                  >
+                    <img 
+                      src={require('../../assets/images/COD.png')} 
+                      alt="COD" 
+                      className="payment-logo"
+                    />
+                    <span>Cash on Delivery</span>
+                  </div>
+                </div>
+              </div>
+
+              <button 
+                className="checkout-button"
+                onClick={handleCheckout}
+              >
+                {selectedPayment === 'khalti' ? 'Pay with Khalti' : 'Place Order (COD)'}
               </button>
             </div>
           </div>
