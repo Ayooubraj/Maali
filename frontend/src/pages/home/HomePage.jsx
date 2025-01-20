@@ -69,19 +69,19 @@ const HomePage = () => {
                   <div className="category-image">
                     <img src={require('../../assets/images/plant1.jpg')} alt="Gardening Tools" />
                   </div>
-                  <p className="category-label">Gardening Tools</p>
+                  <p className="category-label">Tools & Equipments</p>
                 </div>
                 <div className="category-item">
                   <div className="category-image">
                     <img src={require('../../assets/images/plant1.jpg')} alt="Plant Care" />
                   </div>
-                  <p className="category-label">Plant Care</p>
+                  <p className="category-label">Pots & Supplies</p>
                 </div>
                 <div className="category-item">
                   <div className="category-image">
                     <img src={require('../../assets/images/plant1.jpg')} alt="Seeds" />
                   </div>
-                  <p className="category-label">Seeds</p>
+                  <p className="category-label">Seeds & Fertilizers</p>
                 </div>
               </div>
               <button className="scroll-button right" onClick={() => document.querySelector('.category-scroll').scrollBy(200, 0)}>
@@ -132,6 +132,17 @@ const HomePage = () => {
               &gt;
             </button>
           </div>
+
+          {/* New Browse More Section */}
+          <section className="browse-more-section">
+            <h2 className="browse-more-title">Browse More Products</h2>
+            <button 
+              className="browse-more-button"
+              onClick={() => navigate('/product')}
+            >
+              Explore Our Products
+            </button>
+          </section>
         </div>
       </div>
     </div>

@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import FilterPanel from '../../components/Filter/FilterPanel';
 import './ProductPage.css';
 
 const ProductPage = () => {
+  const [cartItems, setCartItems] = useState([]); // State for cart items
+
   // Sample products data
   const products = [
     { id: 1, name: "Indoor Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant1.jpg') },
@@ -54,6 +56,21 @@ const ProductPage = () => {
     { title: "Seeds and Fertilizers", products: products.filter(p => p.category === "Fertilizers") },
   ];
 
+  const addToCart = (product) => {
+    setCartItems(prevItems => [...prevItems, product]);
+    console.log('Added to cart:', product);
+  };
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const section = document.querySelector(`.product-section${hash}`);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, []);
+
   return (
     <div className="productpage">
       {/* Hero Section */}
@@ -86,16 +103,16 @@ const ProductPage = () => {
         {/* Product Sections */}
         <div className="products-section">
           {sections.map(section => (
-            <div key={section.title} className="product-section">
+            <div key={section.title} className={`product-section ${section.title.replace(/\s+/g, '-').toLowerCase()}`} id={section.title.toLowerCase().replace(/\s+/g, '-')}>
               <h2>{section.title}</h2>
               <div className="product-cards-container">
-                <button className="scroll-button left" onClick={() => scroll(section.title, -1)}>❮</button>
+                <button className="scroll-button left" onClick={() => document.querySelector(`.${section.title.replace(/\s+/g, '-').toLowerCase()} .product-cards-wrapper`).scrollBy(-200, 0)}>❮</button>
                 <div className="product-cards-wrapper">
                   {section.products.map(product => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product} addToCart={addToCart} />
                   ))}
                 </div>
-                <button className="scroll-button right" onClick={() => scroll(section.title, 1)}>❯</button>
+                <button className="scroll-button right" onClick={() => document.querySelector(`.${section.title.replace(/\s+/g, '-').toLowerCase()} .product-cards-wrapper`).scrollBy(200, 0)}>❯</button>
               </div>
             </div>
           ))}
@@ -103,12 +120,6 @@ const ProductPage = () => {
       </div>
     </div>
   );
-};
-
-const scroll = (sectionTitle, direction) => {
-  const container = document.querySelector(`.product-section[data-title="${sectionTitle}"] .product-cards-wrapper`);
-  const scrollAmount = direction === 1 ? container.scrollWidth / 3 : -container.scrollWidth / 3;
-  container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
 };
 
 export default ProductPage;

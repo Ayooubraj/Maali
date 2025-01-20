@@ -95,6 +95,8 @@
 }
 
 .product-section {
+  position: relative;
+  overflow: hidden;
   margin-bottom: 2rem;
 }
 
@@ -102,6 +104,7 @@
   display: flex;
   align-items: center;
   position: relative;
+  overflow: hidden;
 }
 
 .product-cards-wrapper {
@@ -109,6 +112,7 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 10px 0;
+  width: calc(100% - 60px);
 }
 
 .scroll-button {
@@ -118,6 +122,18 @@
   cursor: pointer;
   color: #7db035;
   padding: 0 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.scroll-button.left {
+  left: 10px;
+}
+
+.scroll-button.right {
+  right: 10px;
 }
 
 .scroll-button:hover {

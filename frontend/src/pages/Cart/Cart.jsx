@@ -1,24 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { CartContext } from '../../context/CartContext';
 import './Cart.css';
 
 const Cart = () => {
-  // Sample cart items - in a real app, this would come from your cart state/context
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Indoor Plant",
-      price: 29.99,
-      quantity: 1,
-      image: require('../../assets/images/plant1.jpg')
-    },
-    {
-      id: 2,
-      name: "Garden Tools Set",
-      price: 49.99,
-      quantity: 1,
-      image: require('../../assets/images/plant1.jpg')
-    }
-  ]);
+  const { cartItems, setCartItems } = useContext(CartContext); // Use CartContext
 
   const [selectedPayment, setSelectedPayment] = useState('cod'); // Default to COD
 
@@ -38,7 +23,10 @@ const Cart = () => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return cartItems.reduce((total, item) => {
+      // Check if item.price is defined
+      return total + (item.price ? item.price * item.quantity : 0);
+    }, 0);
   };
 
   const handlePaymentSelect = (method) => {
@@ -62,7 +50,7 @@ const Cart = () => {
       {cartItems.length === 0 ? (
         <div className="empty-cart">
           <p>Your cart is empty</p>
-          <button onClick={() => window.location.href = '/product'}>
+          <button onClick={() => window.location.href = '/products'}>
             Continue Shopping
           </button>
         </div>
@@ -74,7 +62,8 @@ const Cart = () => {
                 <img src={item.image} alt={item.name} className="item-image" />
                 <div className="item-details">
                   <h3>{item.name}</h3>
-                  <p className="item-price">₨ {item.price.toFixed(2)}</p>
+                  <p className="item-price">₨ {item.price ? item.price.toFixed(2) : 'N/A'}</p>
+                  <p>Quantity: {item.quantity}</p>
                 </div>
                 <div className="quantity-controls">
                   <button onClick={() => updateQuantity(item.id, -1)}>-</button>
