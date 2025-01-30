@@ -29,17 +29,16 @@ const Cart = () => {
     }, 0);
   };
 
-  const handlePaymentSelect = (method) => {
-    setSelectedPayment(method);
-  };
-
   const handleCheckout = () => {
-    if (selectedPayment === 'khalti') {
-      // Implement Khalti payment logic here
-      console.log('Processing Khalti payment...');
-    } else {
-      // Implement COD logic here
-      console.log('Processing Cash on Delivery...');
+    const confirmation = window.confirm("Are you sure you want to make a purchase?");
+    if (confirmation) {
+      if (selectedPayment === 'khalti') {
+        // Implement Khalti payment logic here
+        console.log('Processing Khalti payment...');
+      } else {
+        // Implement COD logic here
+        console.log('Processing Cash on Delivery...');
+      }
     }
   };
 
@@ -99,7 +98,7 @@ const Cart = () => {
                 <div className="payment-methods">
                   <div 
                     className={`payment-method ${selectedPayment === 'khalti' ? 'selected' : ''}`}
-                    onClick={() => handlePaymentSelect('khalti')}
+                    onClick={() => setSelectedPayment('khalti')}
                   >
                     <img 
                       src={require('../../assets/images/khalti_logo.png')} 
@@ -110,7 +109,7 @@ const Cart = () => {
                   </div>
                   <div 
                     className={`payment-method ${selectedPayment === 'cod' ? 'selected' : ''}`}
-                    onClick={() => handlePaymentSelect('cod')}
+                    onClick={() => setSelectedPayment('cod')}
                   >
                     <img 
                       src={require('../../assets/images/COD.png')} 

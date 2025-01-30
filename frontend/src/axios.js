@@ -61,6 +61,7 @@ instance.interceptors.response.use(
 // Auth endpoints
 export const authAPI = {
   login: (data) => instance.post('/auth/login', data),
+  adminLogin: (data) => instance.post('/admin/login', data),
   register: (data) => instance.post('/auth/register', data),
   logout: () => instance.post('/auth/logout'),
   forgotPassword: (email) => instance.post('/auth/forgot-password', { email }),

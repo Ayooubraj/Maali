@@ -4,13 +4,13 @@ import { authAPI } from '../../../axios';
 import { useAuth } from '../../../context/AuthContext';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import './Login.css';
+import './AdminLogin.css';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Login = () => {
+const AdminLogin = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -32,34 +32,34 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt with:', formData);
+    console.log('Admin login attempt with:', formData);
     
     try {
-      console.log('Sending login request...');
-      const response = await authAPI.login(formData);
-      console.log('Login response:', response);
+      console.log('Sending admin login request...');
+      const response = await authAPI.adminLogin(formData);
+      console.log('Admin login response:', response);
 
       if (response.data.user && response.data.token) {
         login(response.data.user, response.data.token); // Pass both user and token
         
         setSnackbar({
           open: true,
-          message: 'Login successful! Redirecting...',
+          message: 'Admin login successful! Redirecting...',
           severity: 'success'
         });
         
         setTimeout(() => {
-          navigate('/');
+          navigate('/admin-dashboard'); // Navigate to Admin Dashboard
         }, 1500);
       }
     } catch (err) {
-      console.error('Login error:', err);
+      console.error('Admin login error:', err);
       let errorMessage = 'An error occurred';
       
       if (err.response) {
         switch (err.response.status) {
           case 404:
-            errorMessage = 'Account not found. Please check your email.';
+            errorMessage = 'Admin account not found. Please check your email.';
             break;
           case 401:
             errorMessage = 'Incorrect password. Please try again.';
@@ -68,7 +68,7 @@ const Login = () => {
             errorMessage = err.response.data.message || 'Invalid credentials';
             break;
           default:
-            errorMessage = 'Login failed. Please try again.';
+            errorMessage = 'Admin login failed. Please try again.';
         }
       }
       
@@ -84,33 +84,12 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-content">
         <div className="auth-left">
-          <h1>Welcome Back!</h1>
-          <p className="tagline">Your Garden Awaits</p>
-          <div className="feature-list">
-            <div className="feature-item">
-              <span className="feature-icon">🌱</span>
-              <p>Expert Gardening Services</p>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon">🏡</span>
-              <p>Professional Home Services</p>
-            </div>
-            <div className="feature-item">
-              <span className="feature-icon">🌿</span>
-              <p>Quality Garden Products</p>
-            </div>
-          </div>
+          <h1>Welcome Admin!</h1>
+          <p className="tagline">Manage Your Dashboard</p>
         </div>
         
         <div className="auth-card">
-          <div className="auth-logo">
-            <img 
-              src={require('../../../assets/images/logo2.png')} 
-              alt="Logo" 
-              loading="lazy"
-            />
-          </div>
-          <h2>Login</h2>
+          <h2>Admin Login</h2>
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="form-group">
               <input
@@ -130,18 +109,12 @@ const Login = () => {
                 required
               />
             </div>
-            <Link to="/forgot-password" className="forgot-password">
-              Forgot Password?
-            </Link>
             <button type="submit" className="auth-button">
               Login
             </button>
           </form>
           <p className="auth-switch">
             Don't have an account? <Link to="/register">Sign Up</Link>
-          </p>
-          <p className="auth-switch">
-            <Link to="/admin-login">Login as Admin?</Link>
           </p>
         </div>
       </div>
@@ -163,4 +136,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

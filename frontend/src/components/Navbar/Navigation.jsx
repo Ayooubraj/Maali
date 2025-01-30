@@ -92,7 +92,7 @@ const Navbar = () => {
       <ul className="navbar__links">
         <li><Link to="/">Home</Link></li>
         <li><Link to="/product">Products</Link></li>
-        <li><a href="#about">About</a></li>
+        <li><Link to="/about">About</Link></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
 
