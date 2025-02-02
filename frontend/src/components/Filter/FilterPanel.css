@@ -1,12 +1,12 @@
 /* Filter Panel Styles */
 .filter-panel {
-  width: 250px; /* Fixed width */
+  width: 250px;
   padding: 20px;
   background-color: #7db035;
   color: #ffffff;
-  overflow-y: auto; /* Scrollable if content overflows */
-  border-radius: 0; /* Removes rounded edges */
-  margin: 0; /* Align with hero section */
+  overflow-y: auto;
+  border-radius: 0;
+  margin: 0;
 }
 
 .filter-panel__header {
@@ -19,7 +19,7 @@
   margin-bottom: 10px;
 }
 
-/* Filter Panel Checkbox */
+/* Checkbox Styled Options */
 .filter-panel__categories {
   list-style: none;
   padding: 0;
@@ -29,43 +29,51 @@
 .filter-panel__category {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   cursor: pointer;
+  padding: 10px;
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.filter-panel__category:hover {
+  border-color: #ffffff;
 }
 
 .filter-panel__checkbox {
-  margin-right: 10px;
-  cursor: pointer;
   width: 18px;
   height: 18px;
+  margin-right: 10px;
   border: 2px solid #ffffff;
   background-color: transparent;
   display: inline-block;
+  position: relative;
 }
 
-.filter-panel__checkbox--selected {
-  background-color: #fbff00;
-  border-color: #ffffff;
+.filter-panel__checkbox::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  background-color: #58b084;
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+
+.filter-panel__checkbox--selected::after {
+  transform: scale(1);
 }
 
 .filter-panel__label {
   font-size: 1rem;
-  cursor: pointer;
-  user-select: none;
-}
-
-.filter-panel__apply {
-  margin-top: 20px;
-  padding: 10px;
-  font-size: 1rem;
-  background-color: #ff0000;
   color: #ffffff;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease;
 }
 
-.filter-panel__apply:hover {
-  background-color: #45a074;
+/* Active State */
+.filter-panel__category--active {
+  background-color: #58b084;
+  color: #ffffff;
+  border-color: #45a074;
 }

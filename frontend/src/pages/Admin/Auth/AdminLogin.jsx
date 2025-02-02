@@ -12,8 +12,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: 'admin@gmail.com',
+    password: 'admin',
   });
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -35,12 +35,9 @@ const AdminLogin = () => {
     console.log('Admin login attempt with:', formData);
     
     try {
-      console.log('Sending admin login request...');
       const response = await authAPI.adminLogin(formData);
-      console.log('Admin login response:', response);
-
       if (response.data.user && response.data.token) {
-        login(response.data.user, response.data.token); // Pass both user and token
+        login(response.data.user, response.data.token);
         
         setSnackbar({
           open: true,
@@ -49,7 +46,7 @@ const AdminLogin = () => {
         });
         
         setTimeout(() => {
-          navigate('/admin-dashboard'); // Navigate to Admin Dashboard
+          navigate('/admin-dashboard');
         }, 1500);
       }
     } catch (err) {

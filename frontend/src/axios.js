@@ -26,7 +26,7 @@ instance.interceptors.request.use(
 // Response interceptor
 instance.interceptors.response.use(
   (response) => {
-    return response;
+    return response; // Just return the response without handling login or navigation
   },
   (error) => {
     if (error.response) {

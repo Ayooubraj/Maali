@@ -61,25 +61,25 @@ const HomePage = () => {
                 </div>
                 <div className="category-item">
                   <div className="category-image">
-                    <img src={require('../../assets/images/plant1.jpg')} alt="Outdoor Plants" />
+                    <img src={require('../../assets/images/outdoor_img.jpg')} alt="Outdoor Plants" />
                   </div>
                   <p className="category-label">Outdoor Plants</p>
                 </div>
                 <div className="category-item">
                   <div className="category-image">
-                    <img src={require('../../assets/images/plant1.jpg')} alt="Gardening Tools" />
+                    <img src={require('../../assets/images/tool_img2.png')} alt="Gardening Tools" />
                   </div>
                   <p className="category-label">Tools & Equipments</p>
                 </div>
                 <div className="category-item">
                   <div className="category-image">
-                    <img src={require('../../assets/images/plant1.jpg')} alt="Plant Care" />
+                    <img src={require('../../assets/images/pot_img2.png')} alt="Plant Care" />
                   </div>
                   <p className="category-label">Pots & Supplies</p>
                 </div>
                 <div className="category-item">
                   <div className="category-image">
-                    <img src={require('../../assets/images/plant1.jpg')} alt="Seeds" />
+                    <img src={require('../../assets/images/seed_img2.png')} alt="Seeds" />
                   </div>
                   <p className="category-label">Seeds & Fertilizers</p>
                 </div>
