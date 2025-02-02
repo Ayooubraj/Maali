@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext(null);
@@ -76,17 +76,21 @@ export const userAPI = {
 export default instance;
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(() => {
-        try {
-            const savedUser = localStorage.getItem('user');
-            return savedUser ? JSON.parse(savedUser) : null;
-        } catch (error) {
-            console.error('Error parsing user from localStorage:', error);
-            return null;
-        }
-    });
-
+    const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('token'));
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            try {
+                const parsedUser = JSON.parse(storedUser);
+                setUser(parsedUser);
+            } catch (error) {
+                console.error('Error parsing user from localStorage:', error);
+                localStorage.removeItem('user');
+            }
+        }
+    }, []);
 
     const login = (userData, userToken) => {
         setUser(userData);

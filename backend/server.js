@@ -8,6 +8,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 // Load environment variables
 dotenv.config();
@@ -19,12 +20,7 @@ connectDB();
 const app = express();
 
 // CORS configuration
-app.use(cors({
-  origin: 'http://localhost:3000', // Your frontend URL
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
 
 // Middleware
 app.use(express.json());
@@ -49,6 +45,8 @@ const productSchema = new mongoose.Schema({
     category: String,
     price: Number,
     image: String,
+    rating: Number,
+    description: String
 });
 const Product = mongoose.model('Product', productSchema);
 
@@ -86,12 +84,12 @@ app.use('/api', (req, res, next) => {
 app.use('/api/auth', require('./routes/auth'));
 
 // Create a new product
-app.post('/products', upload.single('image'), async (req, res) => {
-    const { name, category, price } = req.body;
+app.post('/api/products', upload.single('image'), async (req, res) => {
+    const { name, category, price, rating, description } = req.body;
     const image = req.file.path; // Get the path of the uploaded image
 
     try {
-        const newProduct = new Product({ name, category, price, image });
+        const newProduct = new Product({ name, category, price, image, rating, description });
         await newProduct.save();
         res.status(201).json(newProduct);
     } catch (error) {
@@ -109,11 +107,21 @@ app.get('/products', async (req, res) => {
     }
 });
 
+// Fetch all products
+app.get('/products', async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching products', error });
+    }
+});
+
 // Update a product
 app.put('/products/:id', upload.single('image'), async (req, res) => {
     const { id } = req.params;
-    const { name, category, price } = req.body;
-    const updateData = { name, category, price };
+    const { name, category, price ,rating, description} = req.body;
+    const updateData = { name, category, price,rating, description };
 
     if (req.file) {
         updateData.image = req.file.path; // Update image if a new one is uploaded
