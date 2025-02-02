@@ -1,23 +1,24 @@
-const express = require('express');
 const dotenv = require('dotenv');
+const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
-const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 
-// Load env vars
+// Load environment variables
 dotenv.config();
+console.log('MONGODB_URI:', process.env.MONGODB_URI);
 
-// Connect to database
+// Connect to database (only once)
 connectDB();
 
 const app = express();
 
-// CORS configuration - add this before other middleware
+// CORS configuration
 app.use(cors({
   origin: 'http://localhost:3000', // Your frontend URL
   credentials: true,
@@ -25,16 +26,11 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Other Middleware
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/uploads', express.static('uploads')); // Serve uploaded files
-
-// Connect to MongoDB (replace with your connection string)
-mongoose.connect('YOUR_MONGODB_CONNECTION_STRING', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error(err));
 
 // Set up multer for file uploads
 const storage = multer.diskStorage({
@@ -54,16 +50,34 @@ const productSchema = new mongoose.Schema({
     price: Number,
     image: String,
 });
-
 const Product = mongoose.model('Product', productSchema);
 
 // Admin User Model
-const AdminUser = mongoose.model('AdminUser', new mongoose.Schema({
-    email: String,
-    password: String,
-}));
+const adminUserSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
+});
+const AdminUser = mongoose.model('AdminUser', adminUserSchema);
 
-// Add this line before defining your routes
+// Ensure default admin user is created at startup
+const ensureAdminExists = async () => {
+    try {
+        const existingAdmin = await AdminUser.findOne({ email: 'admin@gmail.com' });
+        if (!existingAdmin) {
+            const hashedPassword = await bcrypt.hash('admin', 10);
+            const admin = new AdminUser({ email: 'admin@gmail.com', password: hashedPassword });
+            await admin.save();
+            console.log('✅ Default admin user created.');
+        } else {
+            console.log('✅ Admin user already exists.');
+        }
+    } catch (error) {
+        console.error('❌ Error ensuring admin user:', error);
+    }
+};
+ensureAdminExists();
+
+// API Prefix
 app.use('/api', (req, res, next) => {
     next();
 });
@@ -71,22 +85,31 @@ app.use('/api', (req, res, next) => {
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 
+// Create a new product
 app.post('/products', upload.single('image'), async (req, res) => {
     const { name, category, price } = req.body;
     const image = req.file.path; // Get the path of the uploaded image
 
-    const newProduct = new Product({ name, category, price, image });
-    await newProduct.save();
-    res.status(201).json(newProduct);
+    try {
+        const newProduct = new Product({ name, category, price, image });
+        await newProduct.save();
+        res.status(201).json(newProduct);
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating product', error });
+    }
 });
 
 // Get all products
 app.get('/products', async (req, res) => {
-    const products = await Product.find();
-    res.json(products);
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching products', error });
+    }
 });
 
-// Update product route
+// Update a product
 app.put('/products/:id', upload.single('image'), async (req, res) => {
     const { id } = req.params;
     const { name, category, price } = req.body;
@@ -104,7 +127,7 @@ app.put('/products/:id', upload.single('image'), async (req, res) => {
     }
 });
 
-// Delete product route
+// Delete a product
 app.delete('/products/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -115,7 +138,7 @@ app.delete('/products/:id', async (req, res) => {
     }
 });
 
-// Then define your admin login route with the prefix
+// Admin login route with redirection to /admin
 app.post('/api/admin/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -130,13 +153,14 @@ app.post('/api/admin/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: adminUser._id }, 'your_jwt_secret', { expiresIn: '1h' });
-        res.json({ token });
+        const token = jwt.sign({ id: adminUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        res.json({ token, redirectTo: '/admin' }); // Return redirect path
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

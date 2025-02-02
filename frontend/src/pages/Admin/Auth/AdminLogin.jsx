@@ -33,26 +33,27 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Admin login attempt with:', formData);
-    
+  
     try {
       const response = await authAPI.adminLogin(formData);
-      if (response.data.user && response.data.token) {
+      if (response.data.token) {
         login(response.data.user, response.data.token);
-        
+  
         setSnackbar({
           open: true,
           message: 'Admin login successful! Redirecting...',
-          severity: 'success'
+          severity: 'success',
         });
-        
+  
+        // Ensure the redirect is handled properly
+        const redirectTo = response.data.redirectTo || '/admin-dashboard';
         setTimeout(() => {
-          navigate('/admin-dashboard');
+          navigate(redirectTo);
         }, 1500);
       }
     } catch (err) {
       console.error('Admin login error:', err);
       let errorMessage = 'An error occurred';
-      
       if (err.response) {
         switch (err.response.status) {
           case 404:
@@ -68,14 +69,15 @@ const AdminLogin = () => {
             errorMessage = 'Admin login failed. Please try again.';
         }
       }
-      
+  
       setSnackbar({
         open: true,
         message: errorMessage,
-        severity: 'error'
+        severity: 'error',
       });
     }
   };
+  
 
   return (
     <div className="auth-container">

@@ -1,24 +1,43 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const dotenv = require('dotenv'); // Only declare dotenv once
+const AdminUser = require('./models/AdminUser'); // Adjust path to your model
 
-const AdminUser = mongoose.model('AdminUser', new mongoose.Schema({
-    username: String,
-    password: String,
-}));
+// Load environment variables
+dotenv.config();
 
+// Connect to the database
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('Connected to MongoDB');
+}).catch((err) => {
+    console.error('MongoDB connection error:', err);
+});
+
+// Create a new admin user
 const createAdminUser = async () => {
-    const adminUser = new AdminUser({
-        username: 'admin',
-        password: await bcrypt.hash('admin', 10), // Replace 'yourpassword' with your desired password
-    });
+    try {
+        const existingAdmin = await AdminUser.findOne({ email: 'admin@gmail.com' });
+        if (existingAdmin) {
+            console.log('Admin already exists');
+            return;
+        }
 
-    await adminUser.save();
-    console.log('Admin user created');
-    mongoose.connection.close();
+        const hashedPassword = await bcrypt.hash('admin', 10);
+        const admin = new AdminUser({
+            email: 'admin@gmail.com',
+            password: hashedPassword,
+        });
+
+        await admin.save();
+        console.log('Admin user created');
+        process.exit();
+    } catch (error) {
+        console.error('Error creating admin user:', error);
+        process.exit(1);
+    }
 };
 
-mongoose.connect('mongodb+srv://testuser:testuser@cluster0.utjnwiu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        createAdminUser();
-    })
-    .catch(err => console.error(err)); 
+createAdminUser();
