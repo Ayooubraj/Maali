@@ -1,7 +1,6 @@
 import React from 'react';
 import { useCart } from '../../context/CartContext';
-import './ProductCard.css'; // Make sure you link your CSS here
-import { FaShoppingCart } from 'react-icons/fa';
+import './ProductCard.css';
 
 const ProductCard = ({ product, handleBuyNow }) => {
   const { addToCart } = useCart();

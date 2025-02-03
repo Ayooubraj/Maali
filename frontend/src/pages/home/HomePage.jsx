@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import FilterPanel from '../../components/Filter/FilterPanel';
 import { useCart } from '../../context/CartContext';
+import Modal from 'react-modal';
 import './HomePage.css';
 
 import gardener1 from '../../assets/images/gardener1.jpg';
@@ -9,14 +10,18 @@ import gardener1 from '../../assets/images/gardener1.jpg';
 const HomePage = () => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const featuredItems = [
-    { image: require('../../assets/images/plant1.jpg'), alt: 'Indoor Plants', label: 'Indoor Plants', price: 20, rating: '4.5' },
-    { image: require('../../assets/images/plant1.jpg'), alt: 'Outdoor Plants', label: 'Outdoor Plants', price: 25, rating: '4.7' },
-    { image: require('../../assets/images/plant1.jpg'), alt: 'Gardening Tools', label: 'Gardening Tools', price: 15, rating: '4.3' },
-    { image: require('../../assets/images/plant1.jpg'), alt: 'Plant Care', label: 'Plant Care', price: 10, rating: '4.6' },
-    { image: require('../../assets/images/plant1.jpg'), alt: 'Seeds', label: 'Seeds', price: 5, rating: '4.8' },
+    { id: 1, image: require('../../assets/images/snake_plant.png'), alt: 'Snake Plant', label: 'Indoor Plants', price: 500, rating: '4.5', description: 'Beautiful indoor plants to enhance your home decor.' },
+    { id: 2, image: require('../../assets/images/succulent_plant.png'), alt: 'Outdoor Plants', label: 'succulent Plant', price: 2005, rating: '4.7', description: 'Sturdy outdoor plants for your garden.' },
+    { id: 3, image: require('../../assets/images/tool_img2.png'), alt: 'Gardening Tools', label: 'Gardening Tools', price: 15, rating: '4.3', description: 'Essential tools for every gardener.' },
+    { id: 4, image: require('../../assets/images/pothos.png'), alt: 'Pothos plant', label: 'Plant Care', price: 10, rating: '4.6', description: 'Products to keep your plants healthy.' },
+    { id: 5, image: require('../../assets/images/seed_img2.png'), alt: 'Seeds', label: 'Seeds', price: 5, rating: '4.8', description: 'High-quality seeds for your garden.' },
   ];
+
+  const openModal = (product) => setSelectedProduct(product);
+  const closeModal = () => setSelectedProduct(null);
 
   return (
     <div className="homepage">
@@ -63,36 +68,36 @@ const HomePage = () => {
                 &lt;
               </button>
               <div className="category-scroll">
-                <div className="category-item">
+                <Link to="/product" className="category-item">
                   <div className="category-image">
                     <img src={require('../../assets/images/plant1.jpg')} alt="Indoor Plants" />
                   </div>
                   <p className="category-label">Indoor Plants</p>
-                </div>
-                <div className="category-item">
+                </Link>
+                <Link to="/product" className="category-item">
                   <div className="category-image">
                     <img src={require('../../assets/images/outdoor_img.jpg')} alt="Outdoor Plants" />
                   </div>
                   <p className="category-label">Outdoor Plants</p>
-                </div>
-                <div className="category-item">
+                </Link>
+                <Link to="/product" className="category-item">
                   <div className="category-image">
                     <img src={require('../../assets/images/tool_img2.png')} alt="Gardening Tools" />
                   </div>
                   <p className="category-label">Tools & Equipments</p>
-                </div>
-                <div className="category-item">
+                </Link>
+                <Link to="/product" className="category-item">
                   <div className="category-image">
                     <img src={require('../../assets/images/pot_img2.png')} alt="Plant Care" />
                   </div>
                   <p className="category-label">Pots & Supplies</p>
-                </div>
-                <div className="category-item">
+                </Link>
+                <Link to="/product" className="category-item">
                   <div className="category-image">
                     <img src={require('../../assets/images/seed_img2.png')} alt="Seeds" />
                   </div>
                   <p className="category-label">Seeds & Fertilizers</p>
-                </div>
+                </Link>
               </div>
               <button className="scroll-button right" onClick={() => document.querySelector('.category-scroll').scrollBy(200, 0)}>
                 &gt;
@@ -107,17 +112,23 @@ const HomePage = () => {
               &lt;
             </button>
             <div className="featured-scroll">
-              {featuredItems.map((item, index) => (
-                <div className="featured-item" key={index}>
+              {featuredItems.map((item) => (
+                <div className="featured-item" key={item.id}>
                   <div className="featured-image">
                     <img src={item.image} alt={item.alt} />
                   </div>
                   <div className="featured-details">
                     <p className="featured-label">{item.label}</p>
-                    <p className="featured-price">{item.price.toFixed(2)}</p>
+                    <p className="featured-price">₨ {item.price.toFixed(2)}</p>
                     <p className="featured-rating">Rating: {item.rating}</p>
-                    <button className="buy-now-button" onClick={() => navigate('/checkout')}>Buy Now</button>
-                    <button className="add-to-cart-button" onClick={() => addToCart(item)}>Add to Cart</button>
+                    <div className="button-container">
+                      <button className="add-to-cart-button" onClick={() => addToCart(item)}>
+                        Add to Cart
+                      </button>
+                      <button className="buy-now-button" onClick={() => navigate('/checkout')}>
+                        Buy Now
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -139,6 +150,34 @@ const HomePage = () => {
           </section>
         </div>
       </div>
+
+      {/* Modal for Product Details */}
+      {selectedProduct && (
+        <Modal
+          isOpen={!!selectedProduct}
+          onRequestClose={closeModal}
+          contentLabel="Product Details"
+          className="product-modal"
+          overlayClassName="product-modal-overlay"
+        >
+          <div className="modal-content">
+            <img src={selectedProduct.image} alt={selectedProduct.label} className="modal-product-image" />
+            <h2 className="modal-product-name">{selectedProduct.label}</h2>
+            <p className="modal-product-category">Category: {selectedProduct.alt}</p>
+            <p className="modal-product-rating">Rating: {selectedProduct.rating} ★</p>
+            <p className="modal-product-description">Description: {selectedProduct.description}</p>
+            <div className="button-container">
+              <button className="add-to-cart-button" onClick={() => addToCart(selectedProduct)}>
+                Add to Cart
+              </button>
+              <button className="buy-now-button" onClick={() => navigate('/checkout')}>
+                Buy Now
+              </button>
+            </div>
+            <button onClick={closeModal} className="close-modal-button">Close</button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

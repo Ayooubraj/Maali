@@ -1,8 +1,24 @@
 // src/pages/homeService/HomeServicePage.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 import './HomeServicePage.css';
 
 const HomeServicePage = () => {
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  const handleSelectPlan = (packageName, price) => {
+    const packageItem = {
+      id: packageName.toLowerCase().replace(/\s+/g, '-'),
+      name: packageName,
+      price: price,
+      type: 'service',
+    };
+    addToCart(packageItem);
+    navigate('/cart');
+  };
+
   return (
     <div className="homeservice-page">
       {/* Hero Section */}
@@ -42,7 +58,12 @@ const HomeServicePage = () => {
                 <li>Lawn Mowing</li>
                 <li>Weeding</li>
               </ul>
-              <button className="package-card__button">Select Plan</button>
+              <button
+                className="package-card__button"
+                onClick={() => handleSelectPlan('Basic Package', 1999)}
+              >
+                Select Plan
+              </button>
             </div>
           </div>
 
@@ -56,7 +77,12 @@ const HomeServicePage = () => {
                 <li>Pest Control</li>
                 <li>Seasonal Planting</li>
               </ul>
-              <button className="package-card__button">Select Plan</button>
+              <button
+                className="package-card__button"
+                onClick={() => handleSelectPlan('Standard Package', 2999)}
+              >
+                Select Plan
+              </button>
             </div>
           </div>
 
@@ -70,7 +96,12 @@ const HomeServicePage = () => {
                 <li>Garden Renovation</li>
                 <li>24/7 Support</li>
               </ul>
-              <button className="package-card__button">Select Plan</button>
+              <button
+                className="package-card__button"
+                onClick={() => handleSelectPlan('Premium Package', 3999)}
+              >
+                Select Plan
+              </button>
             </div>
           </div>
         </div>

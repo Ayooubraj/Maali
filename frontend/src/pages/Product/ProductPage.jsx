@@ -16,23 +16,23 @@ const ProductPage = () => {
 
   // Sample products data
   const products = [
-    { id: 1, name: "Indoor Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant1.jpg'),price:500 },
-    { id: 2, name: "Indoor Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant2.png'),price:400 }, 
-    { id: 3, name: "Indoor Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant1.jpg'), price:520 },
-    { id: 4, name: "Indoor Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant2.png'), price:800 },
-    { id: 5, name: "Indoor Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant1.jpg'),price:100 },
-    { id: 6, name: "Indoor Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant2.png'), price:300 },
+    { id: 1, name: "Mono Clot", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant1.jpg'),price:500 },
+    { id: 2, name: "hoerbo", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant2.png'),price:400 }, 
+    { id: 3, name: "Beron Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/snake_plant.png'), price:520 },
+    { id: 4, name: "Gilly Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant1.jpg'), price:800 },
+    { id: 5, name: "Tilly Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/snake_plant.png'),price:100 },
+    { id: 6, name: "Jeromy Plant", category: "Indoor", rating: 4.5, image: require('../../assets/images/plant2.png'), price:300 },
 
 
-    { id: 7, name: "Outdoor Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
-    { id: 8, name: "Outdoor Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
-    { id: 9, name: "Outdoor Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
-    { id: 10, name: "Outdoor Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
-    { id: 11, name: "Outdoor Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
-    { id: 12, name: "Outdoor Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
+    { id: 7, name: "herobe Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
+    { id: 8, name: "succulant Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/succulent_plant.png') },
+    { id: 9, name: "snake Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/snake_plant.png') },
+    { id: 10, name: "Herobe Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
+    { id: 11, name: "serome Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
+    { id: 12, name: "hoeme Plant", category: "Outdoor", rating: 4.0, price: getRandomPrice(), image: require('../../assets/images/outdoor_img.jpg') },
 
     { id: 13, name: "Garden Tools", category: "Tools", rating: 4.8, price: getRandomPrice(), image: require('../../assets/images/tool_img.png') },
-    { id: 14, name: "Garden Tools", category: "Tools", rating: 4.8, price: getRandomPrice(), image: require('../../assets/images/tool_img.png') },
+    { id: 14, name: "Garden Tools", category: "Tools", rating: 4.8, price: getRandomPrice(), image: require('../../assets/images/tool_img2.png') },
     { id: 15, name: "Garden Tools", category: "Tools", rating: 4.8, price: getRandomPrice(), image: require('../../assets/images/tool_img.png') },
     { id: 16, name: "Garden Tools", category: "Tools", rating: 4.8, price: getRandomPrice(), image: require('../../assets/images/tool_img.png') },
     { id: 17, name: "Garden Tools", category: "Tools", rating: 4.8, price: getRandomPrice(), image: require('../../assets/images/tool_img.png') },
