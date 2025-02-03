@@ -20,29 +20,49 @@ const Navbar = () => {
     message: '',
     severity: 'success'
   });
-  
+  const [suggestions, setSuggestions] = useState([]); // State for search suggestions
+
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  // Sample product data for search suggestions
+  const products = [
+    { id: 1, name: 'Indoor Plant' },
+    { id: 2, name: 'Outdoor Plant' },
+    { id: 3, name: 'Gardening Tools' },
+    { id: 4, name: 'Plant Care' },
+    { id: 5, name: 'Seeds' },
+  ];
 
   const handleSearch = (e) => {
     e.preventDefault();
     console.log('Searching for:', searchQuery);
   };
 
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.length > 0) {
+      const filteredSuggestions = products.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
   const handleLogout = async () => {
     try {
       await authAPI.logout();
-      
-      // Clear local state
       logout();
       setShowProfile(false);
-      
       setSnackbar({
         open: true,
         message: 'Logged out successfully!',
         severity: 'success'
       });
-      
       navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
@@ -93,7 +113,7 @@ const Navbar = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/product">Products</Link></li>
         <li><Link to="/about">About</Link></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><Link to="/contact">Contact</Link></li>
       </ul>
 
       <div className="navbar__search">
@@ -102,10 +122,17 @@ const Navbar = () => {
             type="text"
             placeholder="Search for plants or tools"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
           />
           <button type="submit">Search</button>
         </form>
+        {suggestions.length > 0 && (
+          <ul className="search-suggestions">
+            {suggestions.map(suggestion => (
+              <li key={suggestion.id}>{suggestion.name}</li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <Link to="/cart" className="navbar__cart">

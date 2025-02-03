@@ -1,22 +1,25 @@
-import React, { useContext } from 'react';
-import { CartContext } from '../../context/CartContext';
+import React from 'react';
+import { useCart } from '../../context/CartContext';
 import './ProductCard.css'; // Make sure you link your CSS here
 import { FaShoppingCart } from 'react-icons/fa';
 
-const ProductCard = ({ product }) => {
-  const { addToCart } = useContext(CartContext); // Use the CartContext
+const ProductCard = ({ product, handleBuyNow }) => {
+  const { addToCart } = useCart();
 
   return (
     <div className="product-card">
       <img src={product.image} alt={product.name} className="product-image" />
       <h3 className="product-name">{product.name}</h3>
-      <p className="product-category">{product.category}</p>
-      <p className="product-price">₨ {product.price ? product.price.toFixed(2) : 'N/A'}</p>
-      <div className="product-rating">Rating: {product.rating} ★</div>
-      <button className="buy-now-button">Buy Now</button>
-      <button className="add-to-cart-button" onClick={() => addToCart(product)}>
-        <FaShoppingCart /> Add to Cart
-      </button>
+      <p className="product-price">Price: ₨ {product.price.toFixed(2)}</p>
+      <p className="product-rating">Rating: {product.rating} ★</p>
+      <div className="button-container">
+        <button className="add-to-cart-button" onClick={() => addToCart(product)}>
+          Add to Cart
+        </button>
+        <button className="buy-now-button" onClick={() => handleBuyNow(product)}>
+          Buy Now
+        </button>
+      </div>
     </div>
   );
 };

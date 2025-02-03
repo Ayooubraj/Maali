@@ -1,31 +1,46 @@
 import React, { useContext, useState } from 'react';
-import { CartContext } from '../../context/CartContext';
+import { useCart } from '../../context/CartContext';
 import './Cart.css';
+import KhaltiCheckout from 'khalti-checkout-web';
 
 const Cart = () => {
-  const { cartItems, setCartItems } = useContext(CartContext); // Use CartContext
+  const { cart } = useCart();
 
   const [selectedPayment, setSelectedPayment] = useState('cod'); // Default to COD
 
+  const khaltiConfig = {
+    publicKey: "YOUR_KHALTI_PUBLIC_KEY",
+    productIdentity: "1234567890",
+    productName: "Product Name",
+    productUrl: "http://example.com/product",
+    eventHandler: {
+      onSuccess(payload) {
+        // hit merchant api for initiating verification
+        console.log(payload);
+      },
+      onError(error) {
+        console.log(error);
+      },
+      onClose() {
+        console.log("widget is closing");
+      },
+    },
+    paymentPreference: [
+      "KHALTI",
+      "EBANKING",
+      "MOBILE_BANKING",
+      "CONNECT_IPS",
+      "SCT",
+    ],
+  };
+
   const updateQuantity = (itemId, change) => {
-    setCartItems(prevItems =>
-      prevItems.map(item => {
-        if (item.id === itemId) {
-          const newQuantity = Math.max(0, item.quantity + change);
-          return {
-            ...item,
-            quantity: newQuantity
-          };
-        }
-        return item;
-      }).filter(item => item.quantity > 0) // Remove items with quantity 0
-    );
+    // Implementation of updateQuantity function
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => {
-      // Check if item.price is defined
-      return total + (item.price ? item.price * item.quantity : 0);
+    return cart.reduce((total, item) => {
+      return total + (item.price ? item.price : 0);
     }, 0);
   };
 
@@ -34,7 +49,7 @@ const Cart = () => {
     if (confirmation) {
       if (selectedPayment === 'khalti') {
         // Implement Khalti payment logic here
-        console.log('Processing Khalti payment...');
+        handleKhaltiPayment();
       } else {
         // Implement COD logic here
         console.log('Processing Cash on Delivery...');
@@ -42,11 +57,16 @@ const Cart = () => {
     }
   };
 
+  const handleKhaltiPayment = () => {
+    const checkout = new KhaltiCheckout(khaltiConfig);
+    checkout.show({ amount: 1000 }); // Amount in paisa
+  };
+
   return (
     <div className="cart-page">
       <h1>Shopping Cart</h1>
       
-      {cartItems.length === 0 ? (
+      {cart.length === 0 ? (
         <div className="empty-cart">
           <p>Your cart is empty</p>
           <button onClick={() => window.location.href = '/products'}>
@@ -56,22 +76,13 @@ const Cart = () => {
       ) : (
         <>
           <div className="cart-items">
-            {cartItems.map(item => (
-              <div key={item.id} className="cart-item">
-                <img src={item.image} alt={item.name} className="item-image" />
+            {cart.map((item, index) => (
+              <div key={index} className="cart-item">
+                <img src={item.image} alt={item.alt} className="item-image" />
                 <div className="item-details">
-                  <h3>{item.name}</h3>
-                  <p className="item-price">₨ {item.price ? item.price.toFixed(2) : 'N/A'}</p>
-                  <p>Quantity: {item.quantity}</p>
+                  <h3>{item.label}</h3>
+                  <p className="item-price">₨ {item.price.toFixed(2)}</p>
                 </div>
-                <div className="quantity-controls">
-                  <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-                </div>
-                <p className="item-total">
-                  ₨ {(item.price * item.quantity).toFixed(2)}
-                </p>
               </div>
             ))}
           </div>

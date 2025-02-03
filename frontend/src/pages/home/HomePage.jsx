@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FilterPanel from '../../components/Filter/FilterPanel';
+import { useCart } from '../../context/CartContext';
 import './HomePage.css';
 
 import gardener1 from '../../assets/images/gardener1.jpg';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  const featuredItems = [
+    { image: require('../../assets/images/plant1.jpg'), alt: 'Indoor Plants', label: 'Indoor Plants', price: 20, rating: '4.5' },
+    { image: require('../../assets/images/plant1.jpg'), alt: 'Outdoor Plants', label: 'Outdoor Plants', price: 25, rating: '4.7' },
+    { image: require('../../assets/images/plant1.jpg'), alt: 'Gardening Tools', label: 'Gardening Tools', price: 15, rating: '4.3' },
+    { image: require('../../assets/images/plant1.jpg'), alt: 'Plant Care', label: 'Plant Care', price: 10, rating: '4.6' },
+    { image: require('../../assets/images/plant1.jpg'), alt: 'Seeds', label: 'Seeds', price: 5, rating: '4.8' },
+  ];
 
   return (
     <div className="homepage">
@@ -97,36 +107,20 @@ const HomePage = () => {
               &lt;
             </button>
             <div className="featured-scroll">
-              <div className="featured-item">
-                <div className="featured-image">
-                  <img src={require('../../assets/images/plant1.jpg')} alt="Indoor Plants" />
+              {featuredItems.map((item, index) => (
+                <div className="featured-item" key={index}>
+                  <div className="featured-image">
+                    <img src={item.image} alt={item.alt} />
+                  </div>
+                  <div className="featured-details">
+                    <p className="featured-label">{item.label}</p>
+                    <p className="featured-price">{item.price.toFixed(2)}</p>
+                    <p className="featured-rating">Rating: {item.rating}</p>
+                    <button className="buy-now-button" onClick={() => navigate('/checkout')}>Buy Now</button>
+                    <button className="add-to-cart-button" onClick={() => addToCart(item)}>Add to Cart</button>
+                  </div>
                 </div>
-                <p className="featured-label">Indoor Plants</p>
-              </div>
-              <div className="featured-item">
-                <div className="featured-image">
-                  <img src={require('../../assets/images/plant1.jpg')} alt="Outdoor Plants" />
-                </div>
-                <p className="featured-label">Outdoor Plants</p>
-              </div>
-              <div className="featured-item">
-                <div className="featured-image">
-                  <img src={require('../../assets/images/plant1.jpg')} alt="Gardening Tools" />
-                </div>
-                <p className="featured-label">Gardening Tools</p>
-              </div>
-              <div className="featured-item">
-                <div className="featured-image">
-                  <img src={require('../../assets/images/plant1.jpg')} alt="Plant Care" />
-                </div>
-                <p className="featured-label">Plant Care</p>
-              </div>
-              <div className="featured-item">
-                <div className="featured-image">
-                  <img src={require('../../assets/images/plant1.jpg')} alt="Seeds" />
-                </div>
-                <p className="featured-label">Seeds</p>
-              </div>
+              ))}
             </div>
             <button className="scroll-button right" onClick={() => document.querySelector('.featured-scroll').scrollBy(200, 0)}>
               &gt;

@@ -1,117 +1,14 @@
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';  // Make sure axios is imported
-// import ProductCard from '../../components/ProductCard/ProductCard';
-// import FilterPanel from '../../components/Filter/FilterPanel';
-// import './ProductPage.css';
-
-// const ProductPage = () => {
-//   const [cartItems, setCartItems] = useState([]); // State for cart items
-//   const [sections, setSections] = useState([ // State for product categories
-//     { title: "Indoor Plants", products: [] },
-//     { title: "Outdoor Plants", products: [] },
-//     { title: "Tools and Equipments", products: [] },
-//     { title: "Pots and Supplies", products: [] },
-//     { title: "Seeds and Fertilizers", products: [] },
-//   ]);
-
-//   const addToCart = (product) => {
-//     setCartItems(prevItems => [...prevItems, product]);
-//     console.log('Added to cart:', product);
-//   };
-
-//   useEffect(() => {
-//     // Fetch products from API
-//     axios.get('http://localhost:5000/api/products')  // Adjust URL to your backend API
-//       .then(response => {
-//         const categorizedProducts = {
-//           indoor: [],
-//           outdoor: [],
-//           tools: [],
-//           pots: [],
-//           seeds: []
-//         };
-
-//         response.data.forEach(product => {
-//           if (product.category === 'Indoor Plants') categorizedProducts.indoor.push(product);
-//           if (product.category === 'Outdoor Plants') categorizedProducts.outdoor.push(product);
-//           if (product.category === 'Tools and Equipments') categorizedProducts.tools.push(product);
-//           if (product.category === 'Pots and Supplies') categorizedProducts.pots.push(product);
-//           if (product.category === 'Seeds and Fertilizers') categorizedProducts.seeds.push(product);
-//         });
-
-//         setSections([
-//           { title: "Indoor Plants", products: categorizedProducts.indoor },
-//           { title: "Outdoor Plants", products: categorizedProducts.outdoor },
-//           { title: "Tools and Equipments", products: categorizedProducts.tools },
-//           { title: "Pots and Supplies", products: categorizedProducts.pots },
-//           { title: "Seeds and Fertilizers", products: categorizedProducts.seeds }
-//         ]);
-//       })
-//       .catch(error => console.error('Error fetching products:', error));
-//   }, []);
-
-//   return (
-//     <div className="productpage">
-//       {/* Hero Section */}
-//       <section className="hero">
-//         <img
-//           src={require('../../assets/images/hero_bgimg.png')}
-//           alt="Hero"
-//           className="hero__image"
-//         />
-//         <img
-//           src={require('../../assets/images/hero_img1.png')}
-//           alt="Hero Overlay"
-//           className="hero__overlay-image"
-//         />
-//         <div className="hero__overlay">
-//           <div className="hero__content">
-//             <h1 className="hero__title">Welcome to Maali</h1>
-//             <h2 className="hero__description">Find the Perfect Plants for Your Garden!</h2>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* Main Content */}
-//       <div className="main-content">
-//         {/* Filter Panel */}
-//         <div className="filter-container">
-//           <FilterPanel />
-//         </div>
-
-//         {/* Product Sections */}
-//         <div className="products-section">
-//           {sections.map(section => (
-//             <div key={section.title} className={`product-section ${section.title.replace(/\s+/g, '-').toLowerCase()}`} id={section.title.toLowerCase().replace(/\s+/g, '-')}>
-//               <h2>{section.title}</h2>
-//               <div className="product-cards-container">
-//                 <div className="product-cards-wrapper">
-//                   {section.products.map(product => (
-//                     <ProductCard key={product.id} product={product} addToCart={addToCart} />
-//                   ))}
-//                 </div>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProductPage;
-
-
-
-
-//previous working code for product page
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import ProductCard from '../../components/ProductCard/ProductCard';
 import FilterPanel from '../../components/Filter/FilterPanel';
 import './ProductPage.css';
+import { useCart } from '../../context/CartContext';
 
 const ProductPage = () => {
   const [cartItems, setCartItems] = useState([]); // State for cart items
+  const navigate = useNavigate(); // Initialize useNavigate
+  const { addToCart } = useCart(); // Use the hook at the top level
 
   const getRandomPrice = () => {
     return Math.floor(Math.random() * (900 - 200 + 1)) + 200; // Random price between 200 and 900
@@ -167,9 +64,9 @@ const ProductPage = () => {
     { title: "Seeds and Fertilizers", products: products.filter(p => p.category === "Fertilizers") },
   ];
 
-  const addToCart = (product) => {
-    setCartItems(prevItems => [...prevItems, product]);
-    console.log('Added to cart:', product);
+  const handleBuyNow = (product) => {
+    addToCart(product);
+    navigate('/cart');
   };
 
   useEffect(() => {
@@ -181,6 +78,18 @@ const ProductPage = () => {
       }
     }
   }, []);
+
+  const ProductCard = ({ product, handleBuyNow }) => (
+    <div className="product-card">
+      <img src={product.image} alt={product.name} />
+      <h3>{product.name}</h3>
+      <p>Price: ₨ {product.price.toFixed(2)}</p>
+      <p className="product-rating">Rating: {product.rating} ★</p>
+      <div className="button-container">
+        <button className="buy-now-button" onClick={() => handleBuyNow(product)}>Buy Now</button>
+      </div>
+    </div>
+  );
 
   return (
     <div className="productpage">
@@ -220,7 +129,7 @@ const ProductPage = () => {
                 <button className="scroll-button left" onClick={() => document.querySelector(`.${section.title.replace(/\s+/g, '-').toLowerCase()} .product-cards-wrapper`).scrollBy(-200, 0)}>❮</button>
                 <div className="product-cards-wrapper">
                   {section.products.map(product => (
-                    <ProductCard key={product.id} product={product} addToCart={addToCart} />
+                    <ProductCard key={product.id} product={product} handleBuyNow={handleBuyNow} />
                   ))}
                 </div>
                 <button className="scroll-button right" onClick={() => document.querySelector(`.${section.title.replace(/\s+/g, '-').toLowerCase()} .product-cards-wrapper`).scrollBy(200, 0)}>❯</button>
